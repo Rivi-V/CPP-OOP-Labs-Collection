@@ -2,12 +2,10 @@
 #include <stdexcept>
 #include <algorithm>
 
-// Валидация цифр
 bool Twelve::isValidDigit(unsigned char c) const {
     return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'B') || (c >= 'a' && c <= 'b');
 }
 
-// Конвертация в десятичное значение
 unsigned char Twelve::toDecimal(unsigned char c) const {
     if (c >= '0' && c <= '9') return c - '0';
     if (c >= 'A' && c <= 'B') return c - 'A' + 10;
@@ -15,19 +13,17 @@ unsigned char Twelve::toDecimal(unsigned char c) const {
     throw std::invalid_argument("Invalid digit");
 }
 
-// Конвертация в двенадцатеричный символ
 unsigned char Twelve::toTwelve(unsigned char n) const {
     if (n < 10) return '0' + n;
     if (n < 12) return 'A' + (n - 10);
     throw std::invalid_argument("Invalid number");
 }
 
-// Конструктор по умолчанию (создает число 0)
+
 Twelve::Twelve() : _size(1), _data(new unsigned char[1]) {
     _data[0] = '0';
 }
 
-// Конструктор с заданным размером и значением
 Twelve::Twelve(const size_t &n, unsigned char t) : _size(n), _data(new unsigned char[n]) {
     if (n == 0) throw std::invalid_argument("Size can't be zero");
     if (!isValidDigit(t)) throw std::invalid_argument("Invalid digit");
@@ -37,7 +33,6 @@ Twelve::Twelve(const size_t &n, unsigned char t) : _size(n), _data(new unsigned 
     }
 }
 
-// Конструктор из списка инициализации
 Twelve::Twelve(const std::initializer_list<unsigned char> &t) : 
     _size(t.size()), 
     _data(new unsigned char[t.size()]) 
@@ -51,17 +46,16 @@ Twelve::Twelve(const std::initializer_list<unsigned char> &t) :
     }
 }
 
-// Конструктор из строки
+
 Twelve::Twelve(const std::string &t) : _size(t.size()), _data(new unsigned char[t.size()]) {
     if (_size == 0) throw std::invalid_argument("Size can't be zero");
     
     for (size_t i = 0; i < _size; ++i) {
         if (!isValidDigit(t[i])) throw std::invalid_argument("Invalid digit");
-        _data[i] = t[_size - 1 - i]; // Реверс строки (младшие разряды в начало)
+        _data[i] = t[_size - 1 - i]; 
     }
 }
 
-// Копирующий конструктор
 Twelve::Twelve(const Twelve& other) : 
     _size(other._size), 
     _data(new unsigned char[other._size]) 
@@ -69,7 +63,6 @@ Twelve::Twelve(const Twelve& other) :
     std::copy(other._data, other._data + _size, _data);
 }
 
-// Перемещающий конструктор
 Twelve::Twelve(Twelve&& other) noexcept : 
     _size(other._size), 
     _data(other._data) 
@@ -78,7 +71,6 @@ Twelve::Twelve(Twelve&& other) noexcept :
     other._data = nullptr;
 }
 
-// Сложение чисел
 Twelve Twelve::add(const Twelve& other) const {
     size_t maxSize = std::max(_size, other._size);
     std::string result;
@@ -97,7 +89,6 @@ Twelve Twelve::add(const Twelve& other) const {
     return Twelve(result);
 }
 
-// Вычитание чисел
 Twelve Twelve::remove(const Twelve& other) const {
     if (this->less(other)) throw std::invalid_argument("Result would be negative");
     
@@ -121,7 +112,6 @@ Twelve Twelve::remove(const Twelve& other) const {
         result.push_back(toTwelve(top - bottom));
     }
 
-    // Удаление ведущих нулей
     while (result.size() > 1 && result.back() == '0') {
         result.pop_back();
     }
@@ -130,7 +120,6 @@ Twelve Twelve::remove(const Twelve& other) const {
     return Twelve(result);
 }
 
-// Сравнение на равенство
 bool Twelve::equals(const Twelve& other) const {
     if (_size != other._size) return false;
     
@@ -140,7 +129,6 @@ bool Twelve::equals(const Twelve& other) const {
     return true;
 }
 
-// Сравнение "меньше"
 bool Twelve::less(const Twelve& other) const {
     if (_size != other._size) return _size < other._size;
     
@@ -151,12 +139,11 @@ bool Twelve::less(const Twelve& other) const {
     return false;
 }
 
-// Сравнение "больше"
 bool Twelve::greater(const Twelve& other) const {
     return !this->less(other) && !this->equals(other);
 }
 
-// Вывод в поток
+
 std::ostream& Twelve::print(std::ostream& os) const {
     for (int i = _size - 1; i >= 0; --i) {
         os << _data[i];
@@ -164,7 +151,6 @@ std::ostream& Twelve::print(std::ostream& os) const {
     return os;
 }
 
-// Деструктор
 Twelve::~Twelve() noexcept {
     delete[] _data;
 }

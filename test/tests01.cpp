@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include "Twelve.h"
 
-// Тесты конструкторов
 TEST(TwelveTest, DefaultConstructor) {
     Twelve num;
     testing::internal::CaptureStdout();
@@ -34,7 +33,6 @@ TEST(TwelveTest, SizeValueConstructor) {
     ASSERT_EQ(output, "5555");
 }
 
-// Тесты сложения
 TEST(TwelveTest, BasicAddition) {
     Twelve num1("12");
     Twelve num2("15");
@@ -79,7 +77,6 @@ TEST(TwelveTest, AdditionWithZero) {
     ASSERT_EQ(output, "A3B");
 }
 
-// Тесты вычитания
 TEST(TwelveTest, BasicSubtraction) {
     Twelve num1("27");
     Twelve num2("15");
@@ -113,7 +110,6 @@ TEST(TwelveTest, SubtractionToZero) {
     ASSERT_EQ(output, "0");
 }
 
-// Тесты сравнения
 TEST(TwelveTest, EqualityTest) {
     Twelve num1("A3B");
     Twelve num2("A3B");
@@ -150,7 +146,6 @@ TEST(TwelveTest, EqualNumbersNotGreater) {
     ASSERT_FALSE(num1.greater(num2));
 }
 
-// Тесты исключений
 TEST(TwelveTest, InvalidDigitException) {
     ASSERT_THROW(Twelve num("G12"), std::invalid_argument);
 }
@@ -169,7 +164,6 @@ TEST(TwelveTest, InvalidDigitInInitializerList) {
     ASSERT_THROW(Twelve num({'1', 'G', '2'}), std::invalid_argument);
 }
 
-// Тесты копирования и перемещения
 TEST(TwelveTest, CopyConstructor) {
     Twelve original("A3B");
     Twelve copy(original);
@@ -195,7 +189,6 @@ TEST(TwelveTest, MoveConstructor) {
     std::string output = testing::internal::GetCapturedStdout();
     
     ASSERT_EQ(output, "A3B");
-    // original теперь в валидном, но неопределенном состоянии
 }
 
 TEST(TwelveTest, CombinedOperations) {
@@ -221,7 +214,6 @@ TEST(TwelveTest, ChainOfComparisons) {
     ASSERT_TRUE(small.less(large));
 }
 
-// Граничные случаи
 TEST(TwelveTest, SingleDigitNumbers) {
     Twelve num1("A");
     Twelve num2("B");
