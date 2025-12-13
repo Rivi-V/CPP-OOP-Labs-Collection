@@ -13,12 +13,11 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /workspace
 COPY . .
 
+# Исправляем npc.h - заменяем forward declaration на #include "observer.h"
+RUN sed -i 's/class IFightObserver;/#include "observer.h"/' include/npc.h
+
 RUN echo "=== Project Structure ===" && \
     find . -type f \( -name "*.cpp" -o -name "*.h" \) | sort
-
-RUN echo "=== Checking Key Files ===" && \
-    [ -f "include/concrete_fight_visitor.h" ] && echo "concrete_fight_visitor.h: EXISTS" || echo "concrete_fight_visitor.h: MISSING" && \
-    [ -f "src/concrete_fight_visitor.cpp" ] && echo "concrete_fight_visitor.cpp: EXISTS" || echo "concrete_fight_visitor.cpp: MISSING"
 
 RUN mkdir -p build
 
@@ -29,7 +28,8 @@ RUN echo "=== Building Main Program ===" && \
         src/dragon.cpp \
         src/elf.cpp \
         src/knight_errant.cpp \
-        src/concrete_fight_visitor.cpp \
+        src/factory.cpp \
+        src/observer.cpp \
         -o build/lab_06_exe
 
 RUN echo "=== Building Tests ===" && \
@@ -39,7 +39,8 @@ RUN echo "=== Building Tests ===" && \
         src/dragon.cpp \
         src/elf.cpp \
         src/knight_errant.cpp \
-        src/concrete_fight_visitor.cpp \
+        src/factory.cpp \
+        src/observer.cpp \
         -lgtest -lgtest_main -lpthread \
         -o build/lab_06_tests
 
