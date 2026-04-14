@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
     "name": "Laba 5",
+=======
+    "name": "Laba 6",
+>>>>>>> temp_oop_6/main
     "dockerFile": "Dockerfile",
     "context": "..",
     "appPort": [],
