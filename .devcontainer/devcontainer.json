@@ -1,9 +1,13 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "name": "Laba 5",
 =======
     "name": "Laba 6",
 >>>>>>> temp_oop_6/main
+=======
+    "name": "Laba 6",
+>>>>>>> temp_oop_7/main
     "dockerFile": "Dockerfile",
     "context": "..",
     "appPort": [],
